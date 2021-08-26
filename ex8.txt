@@ -1,0 +1,125 @@
+package jdbc3;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCAllStatements {
+
+   //static final String DB_URL = "jdbc:mysql://localhost/";
+   static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/";
+   static final String USER = "root";
+   static final String PASS = "Anu@2731";
+
+   public static void main(String[] args) {
+      // Open a connection
+      try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);) {	
+	
+	// Creating a DataBase	      
+         String sql1 = "CREATE DATABASE STUDENT2";
+
+	// Change the  DataBase
+	 String sql2 = "USE STUDENT2";
+
+	// Creating a Table
+
+	 String sql3 = "CREATE TABLE REGISTRATION " +
+                   "(id INTEGER not NULL, " +
+                   " first_name VARCHAR(255), " + 
+                   " last_name VARCHAR(255), " + 
+                   " age INTEGER, " + 
+                   " PRIMARY KEY ( id ))"; 
+
+	// Inserting a Record
+         System.out.println("Inserting records into the table...");          
+         String sql4 = "INSERT INTO Registration VALUES (10, 'James', 'Smith', 21)";
+         
+	
+         Statement stmt = conn.createStatement();
+
+         stmt.executeUpdate(sql1);
+         System.out.println("Database created successfully...");   
+	 stmt.executeUpdate(sql2);
+	 System.out.println("Successfully Changed the Database...");   
+	 stmt.executeUpdate(sql3);
+         System.out.println("Created table in given database...");
+	 stmt.executeUpdate(sql4);
+         System.out.println("Inserted records into the table..."); 
+
+
+	//close the connection
+	
+	stmt.close();
+	conn.close();
+	  
+      } catch (SQLException e) {
+         e.printStackTrace();
+      } 
+   }
+}
+
+
+
+import java.sql.*;
+public class JDBCCreateRead {
+public static void main(String[] args) throws ClassNotFoundException, SQLException
+{
+//load and register JDBC Driver
+Class.forName("com.mysql.cj.jdbc.Driver");
+
+/*
+open a connection to database
+getConnection(url,username,password);
+*/
+Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sakila","root","Anu@2731");
+
+//create statement object
+Statement stmt = con.createStatement();
+
+//execute statement object and return result to ResultSet
+ResultSet rs = stmt.executeQuery("select actor_id ,first_name,last_update from actor");
+while(rs.next()){
+System.out.println("ID : "+rs.getString(1));
+System.out.println("Age: "+rs.getString(2));
+System.out.println("Age: "+rs.getString(3)+"\n");
+}
+
+//close the connection
+rs.close();
+stmt.close();
+con.close();
+}
+}
+
+
+
+import java.sql.*;
+
+public class JDBCCreateDatabase {
+	
+	static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/";
+	static final String USER = "root";
+	static final String PASS = "Anu@2731";
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+		         Statement stmt = conn.createStatement();
+		      ) {		      
+		         String sql1 = "CREATE DATABASE STUDENTS";
+			 //String sql2 = "USE STUDENTS";
+		         stmt.executeUpdate(sql1);
+			// stmt.executeUpdate(sql2);
+		         System.out.println("Database created successfully...");   	  
+		      } catch (SQLException e) {
+		         e.printStackTrace();
+		      } 
+
+	}
+
+}
+
+
+
+
